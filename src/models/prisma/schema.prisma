@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  username String? 
+  email String @unique
+  password String
+  bio String?
+  avatar String?
+  role ROlE @default(USER)
+  post Post[]
+  comments Comment[]
+  postLikes Like[]
+  followers Follow[] @relation(name: "userFollowers")
+  following Follow[] @relation(name: "userFollowing")
+  toUserNotifications Notification[] @relation(name: "sentNotifications")
+  fromUserNotifications Notification[] @relation(name: "recivedNotifications")
+}
+
+model Post{
+  id String @id @default(uuid())
+  content String
+  image String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author User  @relation(fields: [authorById],references: [id])
+  authorById String
+  views Int? @default(0)
+  comments Comment[]
+  userLikes Like[]
+  Notification Notification[]
+}
+
+model Comment{
+  id String @id @default(uuid())
+  content String
+  author User @relation(fields: [authorById],references: [id])
+  authorById String
+  post Post @relation(fields: [postById],references: [id])
+  postById String
+  createdAt DateTime @default(now())
+  @@unique([authorById,postById])
+}
+
+model Like{
+  id String @id @default(uuid())
+  user User @relation(fields: [userById],references: [id]) 
+  userById String
+  post Post @relation(fields: [postById],references: [id])
+  postById String
+  @@unique([userById,postById])
+}
+
+model Follow{
+  id String @id @default(uuid())
+  followers User? @relation(name: "userFollowers",fields: [followersById],references: [id])
+  followersById String?
+  followings User? @relation(name: "userFollowing",fields: [followingById],references: [id])
+  followingById String?
+  @@unique([followersById, followingById])
+}
+
+model Notification{
+  id String @id @default(uuid())
+  fromUser User @relation(name: "recivedNotifications",fields: [fromUserId],references: [id])
+  fromUserId String
+  type TYPE 
+  post Post? @relation(fields: [postById],references: [id])
+  postById String?
+  toUser User @relation(name: "sentNotifications",fields: [toUserId],references: [id])
+  toUserId String
+  readed Boolean? @default(false)
+  createdAt DateTime @default(now())
+  message String
+}
+
+enum ROlE {
+  ADMIN
+  USER
+}
+
+enum TYPE {
+  LIKE
+  COMMENT
+  FOLLOW
+}
