@@ -9,9 +9,9 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { subscribeNotification } from './services/notifications/notification'
 import cors from 'cors'
+import { PORT } from './secret'
 
 const app = express()
-const port = 3000
 const server = createServer(app)
 export const io = new Server(server,{
     cors : {
@@ -36,7 +36,7 @@ app.use('/api/comment',commentRouter)
 app.use('/api/notifications',notificationsRouter)
 
 
-app.listen(port,()=>{
+app.listen(PORT,()=>{
     console.log('server is up')
 })
 

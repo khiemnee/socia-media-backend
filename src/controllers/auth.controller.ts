@@ -7,6 +7,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../helper/jwt/jwt.helper";
+import { SOCIALREFESHKEY } from "../secret";
 
 const prisma = new PrismaClient();
 
@@ -79,7 +80,7 @@ export const refreshToken = (req: Request, res: Response) => {
   }
 
   try {
-    const payload = jwt.verify(token, "socialRefreshKey") as { id: string };
+    const payload = jwt.verify(token, SOCIALREFESHKEY!.toString()) as { id: string };
     const newAccessToken = generateAccessToken(payload.id);
     const newRefreshToken = generateRefreshToken(payload.id);
 
