@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { Post } from "../helper/validations/post.validation";
-import { publishNotification } from "../services/notifications/notification";
+import { publishNotification } from "../subscribes/notification";
 import { redis } from "../utils/redis";
 
 const prisma = new PrismaClient();

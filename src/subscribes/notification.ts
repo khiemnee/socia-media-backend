@@ -1,5 +1,5 @@
-import { redisPub, redisSub } from "../../utils/redis"
-import { io } from "../.."
+import { redisPub, redisSub } from "../utils/redis"
+import { io } from ".."
 
 export const publishNotification = async (data : {
     reciverId : String,

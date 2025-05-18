@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { publishNotification } from "../services/notifications/notification";
+import { publishNotification } from "../subscribes/notification";
 
 const prisma = new PrismaClient();
 

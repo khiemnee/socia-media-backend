@@ -7,7 +7,7 @@ import notificationsRouter from './routers/notification.router'
 import cookieParser from "cookie-parser";
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { subscribeNotification } from './services/notifications/notification'
+import { subscribeNotification } from './subscribes/notification'
 import cors from 'cors'
 import { PORT } from './secret'
 
