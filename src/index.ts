@@ -19,10 +19,15 @@ export const io = new Server(server,{
     }
 })
 
+
 io.on('connection',(socket)=>{
     socket.on('join',(userId)=>{
         socket.join(userId)
     })
+
+    subscribeNotification()
+
+
     console.log("connected")
 })
 
@@ -40,4 +45,3 @@ app.listen(PORT,()=>{
     console.log('server is up')
 })
 
-subscribeNotification()
