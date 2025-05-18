@@ -34,51 +34,67 @@ Testing: Jest, Supertest
 📬 API Endpoints
 Here are some of the main API endpoints:
 
-Auth:
+📌 Auth Routes (/api/auth)
 
-POST /api/auth/register – Register a new user
+POST /register – Register new user with avatar upload
 
-POST /api/auth/login – Login and receive a JWT
+POST /login – User login
 
-Users:
+POST /refreshToken – Refresh JWT access token
 
-GET /api/users/:id – Get user profile
+POST /logOut – Logout and clear token (requires auth)
 
-PUT /api/users/:id – Update user profile
+GET /me – Get current user info (requires auth)
 
-Posts:
+👤 User Routes (/api/user)
 
-POST /api/posts – Create a new post
+GET /:id – Get user by ID (requires auth)
 
-GET /api/posts – Get all posts
+PUT /updateProfile – Update user profile, including avatar upload (requires auth)
 
-GET /api/posts/:id – Get a single post
+POST /follow/:id – Follow a user by ID (requires auth)
 
-PUT /api/posts/:id – Update a post
+DELETE /unfollow/:id – Unfollow a user by ID (requires auth)
 
-DELETE /api/posts/:id – Delete a post
+GET /following/:id – Get list of users that a user is following (requires auth)
 
-Comments:
+GET /followers/:id – Get list of users that follow a user (requires auth)
 
-POST /api/posts/:postId/comments – Add a comment to a post
+📝 Post Routes (/api/posts)
 
-GET /api/posts/:postId/comments – Get comments for a post
+POST /create – Create a new post (requires auth)
 
-Likes:
+GET / – Get all posts with optional filters (requires auth)
 
-POST /api/posts/:postId/like – Like a post
+GET /get/:id – Get a specific post by ID (requires auth)
 
-DELETE /api/posts/:postId/unlike – Unlike a post
+PUT /update/:id – Update a post by ID (author only)
 
-Follows:
+DELETE /delete/:id – Delete a post by ID (author or admin)
 
-POST /api/users/:id/follow – Follow a user
+POST /like/:id – Like a post (requires auth)
 
-DELETE /api/users/:id/unfollow – Unfollow a user
+DELETE /unlike/:id – Unlike a post (requires auth)
 
-Notifications:
+GET /feed – Get posts from followed users (requires auth)
 
-GET /api/notifications – Get user notifications
+💬 Comment Routes (/api/comment)
+
+POST /create/:id – Add a comment to a post by post ID (requires auth)
+
+GET /post/:id – Get all comments of a post by post ID (requires auth)
+
+PUT /update/:id/:postId – Update a comment by comment ID and post ID (requires auth, author only)
+
+DELETE /delete/:id/:postId – Delete a comment by comment ID and post ID (requires auth, author or admin)
+
+🔔 Notification Routes (/api/notifications)
+
+GET / – Get all notifications for the authenticated user (requires auth)
+
+PUT /update/:id – Mark a notification as read by ID (requires auth)
+
+DELETE /delete/:id – Delete a notification by ID (requires auth)
 
 Note: All protected routes require a valid JWT token in the Authorization header.
 
